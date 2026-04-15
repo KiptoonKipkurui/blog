@@ -1,45 +1,330 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { achievements, certificates, education } from '../data/profile';
+
+const pageTitle = 'About Daniel Kiptoon';
+const pageDescription =
+	'Background, experience, education, and technical focus across backend systems, Kubernetes, and applied AI.';
 ---
 
-<Layout
-	title="About Daniel Kiptoon"
-	description="Software engineer focused on scalable backend systems, Kubernetes, and applied AI."
-	pubDate={new Date('2026-04-15')}
-	heroImage="/blog-placeholder-about.jpg"
->
-	<p>
-		I am a software engineer with 6+ years of experience building user-facing and backend systems
-		across fintech, analytics, and developer tooling. My work has ranged from cloud migration and
-		payment services to Kubernetes-focused infrastructure, with a consistent focus on reliability,
-		performance, and shipping useful products end to end.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} image="/blog-placeholder-about.jpg" />
+		<style>
+			.about {
+				width: min(980px, calc(100% - 2em));
+				max-width: none;
+			}
+			.intro {
+				display: grid;
+				grid-template-columns: 1.3fr 0.8fr;
+				gap: 1.5rem;
+				margin-bottom: 2.5rem;
+			}
+			.intro-card,
+			.side-card,
+			.timeline-item,
+			.tool-card,
+			.edu-card,
+			.cert-card {
+				border-radius: 24px;
+				background: white;
+				box-shadow: var(--box-shadow);
+			}
+			.intro-card {
+				padding: 2rem;
+			}
+			.intro-card h1 {
+				margin-bottom: 1rem;
+				font-size: clamp(2.8rem, 6vw, 4.2rem);
+				letter-spacing: -0.04em;
+			}
+			.lead {
+				font-size: 1.1rem;
+				color: rgb(var(--gray-dark));
+			}
+			.side-column {
+				display: grid;
+				gap: 1rem;
+			}
+			.side-card {
+				padding: 1.4rem;
+			}
+			.side-card.dark {
+				background: linear-gradient(160deg, #111827 0%, #0f3b8c 100%);
+				color: rgba(255, 255, 255, 0.9);
+			}
+			.side-card.dark h2,
+			.side-card.dark h3 {
+				color: white;
+			}
+			.section {
+				margin: 2.5rem 0;
+			}
+			.section h2 {
+				margin-bottom: 1rem;
+			}
+			.story {
+				max-width: 48rem;
+			}
+			.timeline,
+			.education-list,
+			.cert-grid {
+				display: grid;
+				gap: 1rem;
+			}
+			.timeline-item,
+			.edu-card,
+			.cert-card {
+				padding: 1.5rem;
+			}
+			.timeline-item {
+				border-left: 6px solid var(--accent);
+			}
+			.timeline-meta,
+			.edu-meta {
+				margin-bottom: 0.5rem;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+				text-transform: uppercase;
+				letter-spacing: 0.07em;
+			}
+			.education-grid {
+				display: grid;
+				grid-template-columns: 1.3fr 0.9fr;
+				gap: 1rem;
+				align-items: start;
+			}
+			.edu-card ul,
+			.tool-card ul,
+			.achievement-list {
+				margin: 0.8rem 0 0;
+				padding-left: 1rem;
+			}
+			.achievement-list li,
+			.edu-card li,
+			.tool-card li {
+				margin-bottom: 0.45rem;
+			}
+			.tools {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.tool-card {
+				padding: 1.3rem;
+			}
+			.now {
+				padding: 1.5rem;
+				border-radius: 24px;
+				background: linear-gradient(135deg, rgba(35, 55, 255, 0.09), rgba(20, 184, 166, 0.08));
+				border: 1px solid rgba(var(--gray), 0.18);
+			}
+			.cert-grid {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+			.cert-card p:last-child {
+				margin-bottom: 0;
+			}
+			.cert-link {
+				display: inline-flex;
+				margin-top: 0.8rem;
+				font-weight: 700;
+			}
+			@media (max-width: 900px) {
+				.intro,
+				.tools,
+				.education-grid,
+				.cert-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main class="about">
+			<section class="intro">
+				<div class="intro-card">
+					<h1>About Daniel</h1>
+					<p class="lead">
+						I am a software engineer focused on backend systems, Kubernetes, and the kind of
+						infrastructure work where performance, reliability, and clear design all need to hold up
+						at the same time.
+					</p>
+					<p>
+						Over the last 6+ years, I have worked across fintech, analytics, and developer tooling,
+						building systems used by large active user bases and engineering teams that depend on
+						software behaving well in production, not just in local demos.
+					</p>
+					<p>
+						I enjoy work that sits close to real operational constraints: API behavior under load,
+						distributed processing, Kubernetes resource synchronization, and platform decisions that
+						make future delivery simpler instead of harder.
+					</p>
+				</div>
+				<div class="side-column">
+					<div class="side-card dark">
+						<h2>Snapshot</h2>
+						<p>MSc Artificial Intelligence, Distinction</p>
+						<p>Certified Kubernetes Administrator</p>
+						<p>Go, Python, C#, JavaScript, Kubernetes, AWS, Azure</p>
+					</div>
+					<div class="side-card">
+						<h3>What this page is for</h3>
+						<p>
+							The home page is the quick overview. This page is the deeper version: experience,
+							context, education, and the through-line behind the systems work I care about.
+						</p>
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Most recently, I contributed to Layer5 as an open-source software engineer, working on Meshery
-		and Kubernetes discovery flows. That work included streaming-list optimizations, operator and
-		CRD improvements, test stabilization, and improvements to cluster resource synchronization. I
-		also spent several years at Vantage Intellica and Tingle Software building data pipelines,
-		internal tools, microservices, and production systems used by large active user bases.
-	</p>
+			<section class="section story">
+				<h2>How I got here</h2>
+				<p>
+					My path into software has always leaned toward complex systems. Earlier work in fintech
+					put me close to transactional integrity, operational risk, and high-availability services.
+					Later roles pulled me further into data pipelines, internal tools, and cloud-native
+					platform work, where throughput and observability mattered just as much as product speed.
+				</p>
+				<p>
+					That progression naturally led into Kubernetes and infrastructure-focused engineering. I
+					find that environment especially compelling because it rewards both technical depth and good
+					judgment. Small implementation details can have large system-wide consequences.
+				</p>
+			</section>
 
-	<p>
-		My technical toolkit includes Go, Python, C#, JavaScript, Kubernetes, Docker, AWS, Azure,
-		PostgreSQL, Redis, and distributed messaging systems such as SQS and SNS. I enjoy the kind of
-		engineering work where architecture, code quality, and operational behavior all matter at the
-		same time.
-	</p>
+			<section class="section">
+				<h2>Selected experience</h2>
+				<div class="timeline">
+					<article class="timeline-item">
+						<p class="timeline-meta">2023 to 2024 | Layer5</p>
+						<h3>Open-Source Software Engineer</h3>
+						<p>
+							Worked on Meshery and Kubernetes discovery flows, including streaming-list
+							optimizations, CRD and operator improvements, test stability, and resource
+							synchronization behavior across cluster environments.
+						</p>
+					</article>
+					<article class="timeline-item">
+						<p class="timeline-meta">2020 to 2024 | Vantage Intellica</p>
+						<h3>Senior Software Engineer</h3>
+						<p>
+							Led engineers building internal tools and distributed pipelines, improved CI/CD,
+							owned production services, and delivered systems used daily by more than 10,000 users.
+						</p>
+					</article>
+					<article class="timeline-item">
+						<p class="timeline-meta">2017 to 2019 | Tingle Software</p>
+						<h3>Software Engineer</h3>
+						<p>
+							Built financial microservices, supported cloud migration to Azure, and helped reduce
+							transaction latency using event-driven workflows and resilient backend services.
+						</p>
+					</article>
+				</div>
+			</section>
 
-	<p>
-		I recently completed an MSc in Artificial Intelligence with distinction at Nottingham Trent
-		University. That academic work sharpened my interest in combining strong software engineering
-		foundations with data-informed systems, especially where performance, memory efficiency, and
-		product usefulness have to coexist.
-	</p>
+			<section class="section">
+				<h2>Education and achievements</h2>
+				<div class="education-grid">
+					<div class="education-list">
+						{
+							education.map((item) => (
+								<article class="edu-card">
+									<p class="edu-meta">{item.period}</p>
+									<h3>{item.qualification}</h3>
+									<p><strong>{item.school}</strong></p>
+									<p>{item.outcome}</p>
+									<ul>
+										{item.details.map((detail) => <li>{detail}</li>)}
+									</ul>
+								</article>
+							))
+						}
+					</div>
+					<aside class="edu-card">
+						<h3>Highlights</h3>
+						<ul class="achievement-list">
+							{achievements.map((achievement) => <li>{achievement}</li>)}
+						</ul>
+					</aside>
+				</div>
+			</section>
 
-	<p>
-		Outside of day-to-day delivery, I care about clear technical writing, maintainable systems, and
-		tools that help teams move faster without losing confidence. This blog is a place to capture the
-		practical ideas, experiments, and design decisions that come out of that work.
-	</p>
-</Layout>
+			<section class="section">
+				<div class="now">
+					<h2>What I am focused on now</h2>
+					<p>
+						I am especially interested in systems that blend sound backend engineering with modern
+						AI capabilities without losing practicality. That means paying attention to latency,
+						resource use, resilience, and the quality of the operator or developer experience around
+						the system, not just the core model or service itself.
+					</p>
+				</div>
+			</section>
+
+			<section class="section">
+				<h2>Certificates</h2>
+				<div class="cert-grid">
+					{
+						certificates.map((certificate) => (
+							<article class="cert-card">
+								<h3>{certificate.title}</h3>
+								<p>{certificate.issuer}</p>
+								<p>{certificate.status}</p>
+								{
+									certificate.certificateUrl ? (
+										<a class="cert-link" href={certificate.certificateUrl} target="_blank">
+											View certificate
+										</a>
+									) : (
+										<p class="cert-link">Add file and update link in src/data/profile.ts</p>
+									)
+								}
+							</article>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="section">
+				<h2>Technical toolkit</h2>
+				<div class="tools">
+					<div class="tool-card">
+						<h3>Languages</h3>
+						<ul>
+							<li>Go</li>
+							<li>Python</li>
+							<li>C#</li>
+							<li>JavaScript</li>
+						</ul>
+					</div>
+					<div class="tool-card">
+						<h3>Infrastructure</h3>
+						<ul>
+							<li>Kubernetes</li>
+							<li>Docker</li>
+							<li>AWS</li>
+							<li>Azure</li>
+						</ul>
+					</div>
+					<div class="tool-card">
+						<h3>Data and systems</h3>
+						<ul>
+							<li>PostgreSQL</li>
+							<li>Redis</li>
+							<li>REST APIs</li>
+							<li>SQS/SNS</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
