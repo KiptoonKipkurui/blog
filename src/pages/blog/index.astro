@@ -51,7 +51,7 @@ const posts = (await getCollection('blog')).sort(
 				width: 100%;
 			}
 			ul li:first-child .title {
-				font-size: 2.6rem;
+				font-size: 2rem;
 			}
 			ul li a {
 				display: block;
@@ -63,6 +63,11 @@ const posts = (await getCollection('blog')).sort(
 			ul li img {
 				margin-bottom: 0.5rem;
 				border-radius: 18px;
+				height: 220px;
+				object-fit: cover;
+			}
+			ul li:first-child img {
+				max-height: 320px;
 			}
 			.title {
 				margin: 0;
@@ -82,17 +87,22 @@ const posts = (await getCollection('blog')).sort(
 			}
 			@media (max-width: 720px) {
 				ul {
-					gap: 0.5em;
+					grid-template-columns: 1fr;
+					gap: 0.75em;
 				}
 				ul li {
-					width: 100%;
 					text-align: center;
 				}
 				ul li:first-child {
 					margin-bottom: 0;
 				}
 				ul li:first-child .title {
-					font-size: 1.563em;
+					font-size: 1.5rem;
+				}
+				ul li img,
+				ul li:first-child img {
+					height: 200px;
+					max-height: none;
 				}
 			}
 		</style>
