@@ -3,42 +3,356 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const featuredPost = posts[0];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.home {
+				width: min(1100px, calc(100% - 2em));
+				max-width: none;
+				padding-top: 2rem;
+			}
+			.hero {
+				display: grid;
+				grid-template-columns: 1.4fr 0.9fr;
+				gap: 2rem;
+				align-items: stretch;
+				margin-bottom: 3rem;
+			}
+			.hero-copy {
+				padding: 2.5rem;
+				border-radius: 28px;
+				background:
+					radial-gradient(circle at top left, rgba(35, 55, 255, 0.14), transparent 35%),
+					linear-gradient(135deg, #ffffff 0%, #f4f7ff 100%);
+				box-shadow: var(--box-shadow);
+			}
+			.eyebrow {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.35rem 0.8rem;
+				border-radius: 999px;
+				background: rgba(35, 55, 255, 0.08);
+				color: var(--accent-dark);
+				font-size: 0.9rem;
+				font-weight: 700;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.hero h1 {
+				margin-top: 1rem;
+				font-size: clamp(3rem, 7vw, 5rem);
+				line-height: 0.95;
+				letter-spacing: -0.04em;
+			}
+			.hero p {
+				max-width: 38rem;
+				margin-bottom: 1.25rem;
+				font-size: 1.05rem;
+			}
+			.hero-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1rem;
+				margin: 2rem 0 1.5rem;
+			}
+			.button {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0.85rem 1.25rem;
+				border-radius: 999px;
+				font-weight: 700;
+				text-decoration: none;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+			}
+			.button.primary {
+				background: linear-gradient(135deg, var(--accent), #4f66ff);
+				color: white;
+				box-shadow: 0 18px 30px rgba(35, 55, 255, 0.2);
+			}
+			.button.secondary {
+				background: white;
+				color: rgb(var(--black));
+				border: 1px solid rgba(var(--gray), 0.28);
+			}
+			.button:hover {
+				transform: translateY(-2px);
+			}
+			.highlights {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+				margin-top: 2rem;
+			}
+			.highlight {
+				padding: 1rem 1.1rem;
+				border-radius: 18px;
+				background: rgba(255, 255, 255, 0.9);
+				border: 1px solid rgba(var(--gray), 0.18);
+			}
+			.highlight strong {
+				display: block;
+				margin-bottom: 0.25rem;
+				font-size: 1.2rem;
+			}
+			.hero-panel {
+				display: grid;
+				gap: 1rem;
+			}
+			.panel-card {
+				padding: 1.5rem;
+				border-radius: 24px;
+				background: #111827;
+				color: rgba(255, 255, 255, 0.88);
+				box-shadow: var(--box-shadow);
+			}
+			.panel-card h2,
+			.panel-card h3 {
+				color: white;
+			}
+			.panel-card ul {
+				padding-left: 1.1rem;
+				margin: 0.75rem 0 0;
+			}
+			.panel-card li {
+				margin-bottom: 0.55rem;
+			}
+			.panel-card.accent {
+				background: linear-gradient(160deg, #0f172a 0%, #1d4ed8 100%);
+			}
+			.section {
+				margin: 3rem 0;
+			}
+			.section-header {
+				display: flex;
+				align-items: end;
+				justify-content: space-between;
+				gap: 1rem;
+				margin-bottom: 1.25rem;
+			}
+			.section-header p {
+				max-width: 34rem;
+				margin: 0;
+				font-size: 1rem;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.card {
+				padding: 1.4rem;
+				border-radius: 22px;
+				background: rgba(255, 255, 255, 0.88);
+				border: 1px solid rgba(var(--gray), 0.15);
+				box-shadow: 0 8px 24px rgba(var(--gray), 0.12);
+			}
+			.card p {
+				margin-bottom: 0;
+				font-size: 0.97rem;
+			}
+			.card-title {
+				margin-bottom: 0.6rem;
+				font-size: 1.15rem;
+			}
+			.featured-post {
+				display: grid;
+				grid-template-columns: 1.1fr 1.4fr;
+				gap: 1.25rem;
+				padding: 1rem;
+				border-radius: 28px;
+				background: white;
+				box-shadow: var(--box-shadow);
+			}
+			.featured-post img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				min-height: 260px;
+			}
+			.featured-copy {
+				padding: 1rem;
+			}
+			.featured-meta {
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+			.tag-row {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+			}
+			.tag {
+				padding: 0.55rem 0.9rem;
+				border-radius: 999px;
+				background: white;
+				border: 1px solid rgba(var(--gray), 0.16);
+				font-size: 0.95rem;
+				font-weight: 700;
+			}
+			@media (max-width: 900px) {
+				.hero,
+				.featured-post {
+					grid-template-columns: 1fr;
+				}
+				.grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media (max-width: 720px) {
+				.home {
+					width: calc(100% - 1.2em);
+					padding-top: 1rem;
+				}
+				.hero-copy,
+				.panel-card,
+				.card,
+				.featured-copy {
+					padding: 1.2rem;
+				}
+				.highlights,
+				.grid {
+					grid-template-columns: 1fr;
+				}
+				.section-header {
+					display: block;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>Daniel Kiptoon</h1>
-			<p>
-				I build reliable software systems for products that need to scale, stay observable, and
-				keep moving in production.
-			</p>
-			<p>
-				I am a software engineer with 6+ years of experience across fintech, analytics, developer
-				tooling, and cloud-native systems. My recent work has focused on Kubernetes discovery,
-				distributed backends, and performance-sensitive services, and I recently completed an MSc in
-				Artificial Intelligence with distinction.
-			</p>
-			<p>
-				This site is where I share notes from the systems I build, the operational lessons that
-				stick, and the engineering trade-offs behind backend and platform work.
-			</p>
-			<h2>What I work on</h2>
-			<ul>
-				<li>Kubernetes operators, discovery, and cluster-scale performance</li>
-				<li>Backend services in Go, Python, and .NET</li>
-				<li>Distributed systems, messaging pipelines, and API design</li>
-				<li>Applied AI and ML systems with a strong engineering foundation</li>
-			</ul>
-			<p>
-				Start with the <a href="/blog">blog</a> for technical writing, or visit the
-				<a href="/about">about page</a> for a fuller background on my work.
-			</p>
+		<main class="home">
+			<section class="hero">
+				<div class="hero-copy">
+					<span class="eyebrow">Software Engineer</span>
+					<h1>Building systems that stay fast, reliable, and useful under real load.</h1>
+					<p>
+						I work across Kubernetes, backend platforms, and applied AI, with a strong bias for
+						clear architecture, production reliability, and practical engineering decisions.
+					</p>
+					<p>
+						My background spans fintech, analytics, and developer tooling, and I write here about
+						the parts of systems work that become visible only when software meets scale.
+					</p>
+					<div class="hero-actions">
+						<a class="button primary" href="/blog">Read the blog</a>
+						<a class="button secondary" href="/about">View my background</a>
+					</div>
+					<div class="highlights">
+						<div class="highlight">
+							<strong>6+ years</strong>
+							Shipping backend and product systems in production.
+						</div>
+						<div class="highlight">
+							<strong>MSc AI</strong>
+							Completed with distinction at Nottingham Trent University.
+						</div>
+						<div class="highlight">
+							<strong>Cloud-native</strong>
+							Kubernetes, operators, messaging pipelines, and platform tooling.
+						</div>
+					</div>
+				</div>
+				<div class="hero-panel">
+					<div class="panel-card accent">
+						<h2>Current focus</h2>
+						<ul>
+							<li>Cluster discovery and synchronization performance</li>
+							<li>Go and Python services with strong operational behavior</li>
+							<li>Production-minded AI and ML systems</li>
+						</ul>
+					</div>
+					<div class="panel-card">
+						<h3>Find me</h3>
+						<p>Writing technical notes, contributing to open source, and refining backend systems.</p>
+						<p><a href="https://github.com/kiptoonkipkurui">GitHub</a></p>
+						<p><a href="https://www.linkedin.com/in/daniel-kipkurui-kiptoon-56b8a1177/">LinkedIn</a></p>
+					</div>
+				</div>
+			</section>
+
+			<section class="section">
+				<div class="section-header">
+					<div>
+						<h2>What I work on</h2>
+						<p>These are the areas where I spend most of my energy, both in delivery work and in the ideas I write about.</p>
+					</div>
+				</div>
+				<div class="grid">
+					<div class="card">
+						<h3 class="card-title">Kubernetes</h3>
+						<p>Operators, discovery flows, cluster APIs, and the performance details that matter at scale.</p>
+					</div>
+					<div class="card">
+						<h3 class="card-title">Backend Platforms</h3>
+						<p>Go, Python, and .NET services designed for maintainability, throughput, and clean evolution.</p>
+					</div>
+					<div class="card">
+						<h3 class="card-title">Distributed Systems</h3>
+						<p>Queues, event-driven workflows, and data pipelines that stay understandable under pressure.</p>
+					</div>
+					<div class="card">
+						<h3 class="card-title">Applied AI</h3>
+						<p>Machine learning work grounded in real engineering constraints such as latency, memory, and deployment.</p>
+					</div>
+				</div>
+			</section>
+
+			{featuredPost && (
+				<section class="section">
+					<div class="section-header">
+						<div>
+							<h2>Featured writing</h2>
+							<p>The latest technical note from the blog, focused on practical systems work rather than theory alone.</p>
+						</div>
+						<a href="/blog">See all posts</a>
+					</div>
+					<article class="featured-post">
+						<img src={featuredPost.data.heroImage} alt="" />
+						<div class="featured-copy">
+							<p class="featured-meta">Latest post</p>
+							<h3>{featuredPost.data.title}</h3>
+							<p>{featuredPost.data.description}</p>
+							<a class="button primary" href={`/blog/${featuredPost.id}/`}>Read article</a>
+						</div>
+					</article>
+				</section>
+			)}
+
+			<section class="section">
+				<div class="section-header">
+					<div>
+						<h2>Tools and domains</h2>
+						<p>A practical mix of languages, infrastructure, and systems concerns that tends to show up in my work.</p>
+					</div>
+				</div>
+				<div class="tag-row">
+					<span class="tag">Go</span>
+					<span class="tag">Python</span>
+					<span class="tag">C#</span>
+					<span class="tag">Kubernetes</span>
+					<span class="tag">Docker</span>
+					<span class="tag">AWS</span>
+					<span class="tag">Azure</span>
+					<span class="tag">PostgreSQL</span>
+					<span class="tag">Redis</span>
+					<span class="tag">SQS/SNS</span>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
