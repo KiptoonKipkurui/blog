@@ -17,40 +17,52 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 960px;
+				width: min(1080px, calc(100% - 2em));
+				max-width: none;
+			}
+			.intro {
+				max-width: 42rem;
+				margin-bottom: 2rem;
+			}
+			.intro p {
+				margin-bottom: 0;
 			}
 			ul {
-				display: flex;
-				flex-wrap: wrap;
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
 				gap: 2rem;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
 			}
 			ul li {
-				width: calc(50% - 1rem);
+				width: auto;
 			}
 			ul li * {
 				text-decoration: none;
 				transition: 0.2s ease;
 			}
 			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
+				grid-column: 1 / -1;
+				margin-bottom: 0.5rem;
+				text-align: left;
 			}
 			ul li:first-child img {
 				width: 100%;
 			}
 			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
+				font-size: 2.6rem;
 			}
 			ul li a {
 				display: block;
+				padding: 1rem;
+				border-radius: 28px;
+				background: rgba(255, 251, 247, 0.95);
+				box-shadow: var(--box-shadow);
+			}
+			ul li img {
+				margin-bottom: 0.5rem;
+				border-radius: 18px;
 			}
 			.title {
 				margin: 0;
@@ -88,6 +100,10 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
+			<section class="intro">
+				<h1>Writing on systems, platform work, and engineering trade-offs.</h1>
+				<p>Notes from backend delivery, Kubernetes work, distributed systems, and the details that tend to matter only once software hits real environments.</p>
+			</section>
 			<section>
 				<ul>
 					{
