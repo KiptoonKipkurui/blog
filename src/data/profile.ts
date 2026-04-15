@@ -47,3 +47,48 @@ export const certificates = [
 		certificateUrl: '',
 	},
 ];
+
+export const projects = [
+	{
+		title: 'Meshery Kubernetes Discovery Improvements',
+		type: 'Open-source contribution',
+		period: '2023 to 2024',
+		summary:
+			'Contributed to Meshery and MeshSync discovery flows, improving Kubernetes resource tracking, streaming-list performance, and cluster synchronization behavior.',
+		highlights: [
+			'Extended discovery mechanisms for more accurate resource visibility across environments.',
+			'Improved performance by using Kubernetes Discovery APIs and streaming-list operations.',
+			'Strengthened test coverage and CI reliability around critical synchronization flows.',
+		],
+		linkLabel: 'View GitHub profile',
+		linkUrl: 'https://github.com/kiptoonkipkurui',
+	},
+	{
+		title: 'Config-Op Kubernetes Operator',
+		type: 'Project',
+		period: 'Independent project',
+		summary:
+			'Designed an operator to synchronize ConfigMaps and Secrets across namespaces with a focus on reliability and consistency in multi-service production environments.',
+		highlights: [
+			'Built for repeatable configuration propagation across Kubernetes workloads.',
+			'Focused on operational simplicity and safe synchronization behavior.',
+			'Shaped as a practical tool for teams managing shared configuration at scale.',
+		],
+		linkLabel: '',
+		linkUrl: '',
+	},
+	{
+		title: 'Lightweight Super-Resolution on Edge Devices',
+		type: 'Research project',
+		period: 'MSc thesis',
+		summary:
+			'Explored real-time image enhancement models for constrained edge and drone-based systems, balancing perceptual quality with memory and latency constraints.',
+		highlights: [
+			'Optimized for real-time execution on resource-constrained hardware.',
+			'Focused on practical trade-offs between quality, throughput, and memory use.',
+			'Connected machine learning work with deployable engineering concerns.',
+		],
+		linkLabel: '',
+		linkUrl: '',
+	},
+];
